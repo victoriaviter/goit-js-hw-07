@@ -1,30 +1,28 @@
 import { galleryItems } from './gallery-items.js';
-// Change code below this line
 
-console.log(galleryItems);
- 
-const createGalerry = document.querySelector('.gallery');
+const galleryEl = document.querySelector('.gallery'); 
 
-const allGalleryEl = galleryItems.map(
- item =>
-        `<a class="gallery__item" href=""${item.original}"">
-  <img class="gallery__image"
-   src="${item.preview}"
-   alt=="${item.description}"/>
-</a>`
-)
-    .join('');
+const galleryMarkup = galleryItems
+    .map(({ original, preview, description }) => `
+                <li class="gallery__item">
+                    <a class="gallery__link" href="${original}">
+                        <img
+                            class="gallery__image"
+                            src="${preview}"
+                            alt="${description}"
+                        />
+                    </a>
+                </li>`)
+    .join("");
 
+galleryEl.insertAdjacentHTML("beforeend", galleryMarkup);
 
+console.log(galleryEl);
 
-createGalerry.insertAdjacentHTML('beforeend', allGalleryEl);
+const lightboxOptions = {
+  captions: true,
+  captionsData: "alt",
+  captionDelay: 250,
+};
 
-let img = '';
-let gallery = new SimpleLightbox('.gallery a');
-gallery.on('show.simplelightbox', function (e) {
-    img = `<div class="modal">
-  <img src="${e.target.dataset.source}">
-</div>`;
-    captionData: 'alt';
-        captionDelay: 250;
-});
+const lightboxGallery = new SimpleLightbox(".gallery a", lightboxOptions);
